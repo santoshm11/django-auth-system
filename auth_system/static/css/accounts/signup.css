@@ -1,0 +1,251 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .signup-container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 460px;
+            padding: 45px 40px;
+            transition: all 0.3s ease;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .signup-header h1 {
+            color: #1a202c;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .signup-header p {
+            color: #718096;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px 18px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background-color: #f8fafc;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4299e1;
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.1);
+        }
+
+        .form-group input:valid {
+            border-color: #48bb78;
+        }
+
+        .form-group input:invalid:not(:focus):not(:placeholder-shown) {
+            border-color: #f56565;
+        }
+
+        .password-requirements {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .form-group:focus-within .password-requirements {
+            display: block;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .terms-checkbox input {
+            margin-top: 3px;
+            accent-color: #4299e1;
+        }
+
+        .terms-checkbox a {
+            color: #4299e1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        .signup-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .signup-button:hover {
+            background: linear-gradient(to right, #3182ce, #2b6cb0);
+            box-shadow: 0 6px 15px rgba(66, 153, 225, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: #a0aec0;
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider span {
+            padding: 0 15px;
+        }
+
+        .google-btn {
+            width: 70%;
+            padding: 24px;
+            background-color: white;
+            color: #4a5568;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            text-decoration: none;
+        }
+
+        .google-btn:hover {
+            background-color: #f7fafc;
+            border-color: #cbd5e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .google-btn i {
+            font-size: 18px;
+        }
+
+        .signin-link {
+            text-align: center;
+            color: #718096;
+            font-size: 15px;
+        }
+
+        .signin-link a {
+            color: #4299e1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .signin-link a:hover {
+            color: #3182ce;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 35px 25px;
+            }
+            
+            .signup-header h1 {
+                font-size: 28px;
+            }
+            
+            .form-group input {
+                padding: 14px 16px;
+            }
+        }
+
+.button-container {
+  display: flex;
+  justify-content: center; /* centers the button horizontally */
+  margin-top: 15px;       /* optional spacing */
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.google-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.google-btn-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.google-btn-icon svg {
+  width: 100%;
+  height: 100%;
+}
