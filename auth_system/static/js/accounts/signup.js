@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('signup-form');
     const usernameInput = document.getElementById('username');
     const emailInput = document.getElementById('email');
@@ -8,20 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const googleBtn = document.querySelector('.google-btn');
 
     // Password confirmation validation
-    function validatePasswordMatch() {
-        if (passwordInput.value !== confirmPasswordInput.value) {
-            confirmPasswordInput.style.borderColor = '#f56565'; // red
-        } else {
-            confirmPasswordInput.style.borderColor = '#48bb78'; // green
-        }
-    }
+    const validatePasswordMatch = () => {
+        confirmPasswordInput.style.borderColor = 
+            passwordInput.value && confirmPasswordInput.value && passwordInput.value !== confirmPasswordInput.value
+            ? '#f56565' // red
+            : '#48bb78'; // green
+    };
 
     passwordInput.addEventListener('input', validatePasswordMatch);
     confirmPasswordInput.addEventListener('input', validatePasswordMatch);
 
     // Form submission
-    form.addEventListener('submit', function (e) {
-        // Basic validation
+    form.addEventListener('submit', (e) => {
         if (!usernameInput.value || !emailInput.value || !passwordInput.value || !confirmPasswordInput.value) {
             e.preventDefault();
             alert('Please fill in all fields');
@@ -40,16 +38,22 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Let the form submit naturally to Django backend
-        // Optionally, you can disable the submit button to prevent double submissions
-        form.querySelector('.signup-button').disabled = true;
+        // Disable submit button to prevent double submissions
+        const submitButton = form.querySelector('.signup-button');
+        if (submitButton) submitButton.disabled = true;
     });
 
-    // Google sign-up button (redirects via provider link)
+    // Google sign-up button (redirect)
     if (googleBtn) {
-        googleBtn.addEventListener('click', function (e) {
-            // Let the default anchor action happen (redirect to Google OAuth)
-            // If you want, you could show a loading indicator here
+        googleBtn.addEventListener('click', () => {
+            // Default action handles redirect
         });
     }
+
+    // Initialize Bootstrap toasts
+    const toasts = document.querySelectorAll('.toast');
+    toasts.forEach((toastEl) => {
+        const toast = new bootstrap.Toast(toastEl, { delay: 5000, autohide: true });
+        toast.show();
+    });
 });

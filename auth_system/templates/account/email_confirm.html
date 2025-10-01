@@ -1,11 +1,13 @@
 {% load i18n %}
+{% load account %}
+{% load allauth %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Confirmed - CHAT Flow</title>
+    <title>{% trans "Confirm Email Address" %} - CHAT Flow</title>
     <style>
         * {
             margin: 0;
@@ -25,18 +27,16 @@
             padding: 20px;
         }
 
-        /* Container styles */
         .confirmation-container {
             background: white;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             padding: 40px;
-            max-width: 440px;
+            max-width: 480px;
             width: 100%;
             text-align: center;
         }
 
-        /* Success icon */
         .success-icon {
             width: 80px;
             height: 80px;
@@ -46,6 +46,7 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto 24px;
+            animation: scaleIn 0.5s ease-out;
         }
 
         .success-icon svg {
@@ -54,7 +55,6 @@
             color: white;
         }
 
-        /* Typography */
         .confirmation-title {
             font-size: 28px;
             font-weight: 700;
@@ -68,7 +68,6 @@
             margin-bottom: 32px;
         }
 
-        /* Button styles */
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -94,7 +93,6 @@
             transform: translateY(0);
         }
 
-        /* Responsive adjustments */
         @media (max-width: 480px) {
             .confirmation-container {
                 padding: 32px 24px;
@@ -116,7 +114,6 @@
             }
         }
 
-        /* Animation for success icon */
         @keyframes scaleIn {
             from {
                 opacity: 0;
@@ -127,26 +124,49 @@
                 transform: scale(1);
             }
         }
-
-        .success-icon {
-            animation: scaleIn 0.5s ease-out;
-        }
     </style>
 </head>
 <body>
-    <div class="confirmation-container">
-        <div class="success-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-        </div>
-        
-        <h1 class="confirmation-title">Email Confirmed!</h1>
-        
+<div class="confirmation-container">
+
+    {% if confirmation %}
+        {% user_display confirmation.email_address.user as user_display %}
+
+        {% if can_confirm %}
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <h1 class="confirmation-title">{% trans "Confirm Email Address" %}</h1>
+            <p class="confirmation-message">
+                {% blocktrans with confirmation.email_address.email as email %}
+                    Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> belongs to user {{ user_display }}.
+                {% endblocktrans %}
+            </p>
+            {% url 'account_confirm_email' confirmation.key as action_url %}
+            <form method="post" action="{{ action_url }}">
+                {% csrf_token %}
+                {{ redirect_field }}
+                <button type="submit" class="btn">{% trans "Confirm" %}</button>
+            </form>
+
+        {% else %}
+            <h1 class="confirmation-title">{% trans "Email Already Confirmed" %}</h1>
+            <p class="confirmation-message">
+                {% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}
+            </p>
+            <a href="{% url 'account_login' %}" class="btn">{% trans "Go to Sign In" %}</a>
+        {% endif %}
+
+    {% else %}
+        <h1 class="confirmation-title">{% trans "Invalid or Expired Link" %}</h1>
         <p class="confirmation-message">
-            Thank you, {{ confirmation.email_address.user.username }}! Your email has been successfully verified. You can now sign in to your account.
+            {% url 'account_email' as email_url %}
+            {% blocktrans %}This confirmation link is invalid or expired. Please request a new confirmation email.{% endblocktrans %}
         </p>
-        <a href="{% url 'account_login' %}" class="btn">Sign In</a>
-    </div>
+        <a href="{{ email_url }}" class="btn">{% trans "Request New Link" %}</a>
+    {% endif %}
+</div>
 </body>
 </html>

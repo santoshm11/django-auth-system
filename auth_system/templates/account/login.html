@@ -9,17 +9,6 @@
     <link rel="stylesheet" href="{% static 'css/fontawesome-free-7.0.1-web/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/accounts/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.3.8-dist/css/bootstrap.min.css' %}">
-    <script src="{% static 'js/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js' %}"></script>
-
-    <style>
-        ul.messages {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 10px;
-        }
-        ul.messages li.error { color: red; font-weight: 500; }
-        ul.messages li.success { color: green; font-weight: 500; }
-    </style>
 </head>
 <body>
     <div class="login-container">
@@ -27,37 +16,30 @@
             <h1>Welcome Back</h1>
             <p>Sign in to your account to continue</p>
         </div>
-        
-{% if messages %}
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
-    {% for message in messages %}
-        {% comment %}
-        Map Django message tags to Bootstrap toast background colors:
-        error   → danger (red)
-        success → success (green)
-        warning → warning (yellow)
-        info    → info (blue)
-        {% endcomment %}
-        <div class="toast align-items-center 
-            {% if message.tags == 'error' %}text-bg-danger
-            {% elif message.tags == 'success' %}text-bg-success
-            {% elif message.tags == 'warning' %}text-bg-warning
-            {% elif message.tags == 'info' %}text-bg-info
-            {% else %}text-bg-secondary
-            {% endif %} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
-            
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ message }}
+
+        {% if messages %}
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+            {% for message in messages %}
+                <div class="toast align-items-center 
+                    {% if message.tags == 'error' %}text-bg-danger
+                    {% elif message.tags == 'success' %}text-bg-success
+                    {% elif message.tags == 'warning' %}text-bg-warning
+                    {% elif message.tags == 'info' %}text-bg-info
+                    {% else %}text-bg-secondary
+                    {% endif %} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                    
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close 
+                            {% if message.tags == 'error' or message.tags == 'success' %}btn-close-white{% else %}btn-close{% endif %} 
+                            me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
                 </div>
-                <button type="button" class="btn-close 
-                    {% if message.tags == 'error' or message.tags == 'success' %}btn-close-white{% else %}btn-close{% endif %} 
-                    me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-</div>
-{% endif %}
+        {% endif %}
 
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
@@ -105,5 +87,6 @@
         </form>
     </div>
     <script src="{% static 'js/accounts/login.js' %}"></script>
+    <script src="{% static 'js/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

@@ -1,27 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // ---- Form handling ----
     const form = document.querySelector('form');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const googleBtn = document.querySelector('.google-btn');
 
-    form.addEventListener('submit', function (e) {
-        // Basic validation
-        if (!emailInput.value || !passwordInput.value) {
-            e.preventDefault(); // only block if validation fails
-            alert('Please fill in all fields');
-            return;
-        }
-
-        // Let the form submit normally to Django backend
-        // Optionally, you could disable the submit button to prevent double submissions
-        form.querySelector('button[type="submit"]').disabled = true;
-    });
-
-    // Google login button: just let the anchor redirect
-    if (googleBtn) {
-        googleBtn.addEventListener('click', function () {
-            // no preventDefault here; the anchor will navigate
-            // optionally, you could show a loading spinner
+    if (form) {
+        form.addEventListener('submit', function () {
+            if (!emailInput.value || !passwordInput.value) {
+                console.warn('Some fields are empty.');
+                // Do not prevent default; let Django handle validation
+            }
         });
     }
+
+    if (googleBtn) {
+        googleBtn.addEventListener('click', function () {
+            // Just allow normal navigation; no blocking
+        });
+    }
+
+    // ---- Bootstrap Toasts ----
+    const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+    toastElList.forEach(function (toastEl) {
+        const toast = new bootstrap.Toast(toastEl, {
+            delay: 5000,  // auto-hide after 5 seconds
+            autohide: true
+        });
+        toast.show();
+    });
 });

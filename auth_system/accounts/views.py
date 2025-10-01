@@ -67,7 +67,7 @@ def signup_view(request):
         messages.success(request, "Verification email sent! Check your inbox.")
         return redirect("login")
 
-    return render(request, "accounts/signup.html")
+    return render(request, "account/signup.html")
 
 def login_view(request):
     if request.method == "POST":
@@ -113,20 +113,20 @@ def login_view(request):
         messages.success(request, f"Welcome back, {user.username}!")
         return redirect('profile')
 
-    return render(request, "accounts/login.html")
+    return render(request, "account/login.html")
 
 def logout_view(request):
     logout(request)
     return redirect('login')
 
 def profile_view(request):
-    return render(request, "accounts/profile.html")
+    return render(request, "account/profile.html")
 
 def terms_conditions_view(request):
-    return render(request, 'accounts/terms_conditions.html')
+    return render(request, 'account/terms_conditions.html')
 
 def privacy_policy(request):
-    return render(request, 'accounts/privacy_policy.html')
+    return render(request, 'account/privacy_policy.html')
 
 # Forgot Password (basic version)
 def password_reset_view(request):
@@ -136,16 +136,16 @@ def password_reset_view(request):
             form.save(
                 request=request,
                 use_https=request.is_secure(),
-                email_template_name="accounts/password_reset_email.html",
+                email_template_name="account/password_reset_email.html",
             )
             messages.success(request, "Password reset link sent to your email")
             return redirect('login')
     else:
         form = PasswordResetForm()
-    return render(request, "accounts/password_reset.html", {"form": form})
+    return render(request, "account/password_reset.html", {"form": form})
 
 class CustomConfirmEmailView(ConfirmEmailView):
-    template_name = 'accounts/email_confirm.html'  # your custom template
+    template_name = 'account/email_confirm.html'  # your custom template
 
     def get(self, *args, **kwargs):
         # Get the EmailConfirmation object using the key in the URL
